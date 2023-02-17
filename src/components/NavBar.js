@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function NavBar(){
     return (
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-5">
@@ -8,10 +10,10 @@ export default function NavBar(){
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/change-password">Change Password</a>
+                <Link className="nav-link" to="/change-password">Change Password</Link>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+                <Link className="nav-link" to="/logout">Logout</Link>
             </li>
             </ul>
         </div>
