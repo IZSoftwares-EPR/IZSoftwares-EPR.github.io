@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/epr-client/static/css/main.87537e20.css",
+    "main.js": "/epr-client/static/js/main.171ccaed.js",
+    "index.html": "/epr-client/index.html",
+    "main.87537e20.css.map": "/epr-client/static/css/main.87537e20.css.map",
+    "main.171ccaed.js.map": "/epr-client/static/js/main.171ccaed.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.87537e20.css",
+    "static/js/main.171ccaed.js"
+  ]
+}
