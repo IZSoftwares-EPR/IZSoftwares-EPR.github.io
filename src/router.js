@@ -2,6 +2,7 @@
 import { createBrowserRouter } from "react-router-dom"
 import ProtectedRoute from "./hoc/ProtectedRoute";
 import VerifiedUserRoute from "./hoc/VerifiedUserRoute";
+import ActivateAccount from "./pages/activate-account";
 import ChangePasswordPage from "./pages/change-password-page";
 import ErrorPage from "./pages/error-page";
 import LoginPage from "./pages/login-page"
@@ -22,6 +23,10 @@ const router = createBrowserRouter(
         {
             path: "/change-password",
             element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
+        },
+        {
+            path: "/activate-account",
+            element: <ActivateAccount/>
         },
         {
             path: "/logout",

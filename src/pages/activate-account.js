@@ -4,8 +4,8 @@ import Alert from "../components/Alert";
 import VerificationModal from "../components/VerificationModal";
 import { setUserVerified } from "../context/auth-context";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
-import { updatePassword, verificationCode } from "../utils/requests";
-export default class ChangePasswordPage extends React.Component {
+import { updatePasswordDefault, verificationCode } from "../utils/requests";
+export default class ActivateAccount extends React.Component {
     state = { modalError: null, error: null, success: false }
     componentDidMount() {
         window.$('#verificationModal').modal({ backdrop: 'static', keyboard: false })
@@ -21,7 +21,7 @@ export default class ChangePasswordPage extends React.Component {
         if (form.password.value !== form.password1.value) {
             return this.setState({ error: "Passwords donot match" })
         }
-        updatePassword(form.password.value).then(() => {
+        updatePasswordDefault(form.password0.vale, form.password.value).then(() => {
             setUserVerified(true)
             this.setState({success: true})
         }).catch((e) => this.setState({ error: e.message }))
@@ -38,6 +38,10 @@ export default class ChangePasswordPage extends React.Component {
                 <AlignedCenterLayout>
                     <form className="align-self-center flex-form" onSubmit={this.handleSubmit.bind(this)}>
                         <Alert message={this.state.error} />
+                        <div className="mb-3">
+                            <label htmlFor="password-field">Current Password</label>
+                            <input name="password0" type="password" className="form-control" id="password-field" />
+                        </div>
                         <div className="mb-3">
                             <label htmlFor="password-field">Type new Password</label>
                             <input name="password" type="password" className="form-control" id="password-field" />

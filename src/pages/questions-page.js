@@ -1,17 +1,19 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
-import { fetchEmployees, fetchQuestions, postReview } from "../utils/requests";
+import { getUsers, getPerformanceQuestions, createReview } from "../utils/requests";
 export default class QuestionsPage extends React.Component {
     state = { questions: [], employees: [], currentReviewedEmp: null }
     componentDidMount() {
-        fetchEmployees().then(employees => {
-            this.setState({ employees });
-            this.setState({ currentReviewedEmp: employees[0] });
-        })
-        fetchQuestions().then(questions => {
-            this.setState({ questions: questions.map(question => ({ ...question, value: "" })) });
-        })
+        if (new Date().getDay() === 6) { // Reviews only available on Saturdays
+            getUsers().then(employees => {
+                this.setState({ employees });
+                this.setState({ currentReviewedEmp: employees[0] });
+            })
+            getPerformanceQuestions().then(questions => {
+                this.setState({ questions: questions.map(question => ({ ...question, value: "" })) });
+            })
+        }
     }
     render() {
         return (
@@ -63,7 +65,7 @@ export default class QuestionsPage extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        postReview(this.state.currentReviewedEmp.id, this.getReviewData()).then(() => {
+        createReview(this.state.currentReviewedEmp.id, this.getReviewData()).then(() => {
             const employees = this.state.employees;
             employees.shift();
             this.setState({ employees: [...employees] });
@@ -71,8 +73,8 @@ export default class QuestionsPage extends React.Component {
         })
     }
     handleSkip() {
-        const reviewData = this.getReviewData().map(piece => ({ ...piece, point: null }));
-        postReview(this.state.currentReviewedEmp.id, reviewData).then(() => {
+        const reviewData = this.getReviewData().map(piece => ({ ...piece, points: 0 }));
+        createReview(this.state.currentReviewedEmp.id, reviewData).then(() => {
             const employees = this.state.employees;
             employees.shift();
             this.setState({ employees: [...employees] });
@@ -85,6 +87,6 @@ export default class QuestionsPage extends React.Component {
         this.setState({ questions: this.state.questions.map(question => ({ ...question, value: "" })) })
     }
     getReviewData() {
-        return this.state.questions.map(question => ({ pq_id: question.id, point: question.value }))
+        return this.state.questions.map(question => ({ pqId: question.id, points: question.value }))
     }
 }

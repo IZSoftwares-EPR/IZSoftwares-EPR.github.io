@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert";
-import { setUser } from "../context/auth-context";
+import { setJWT } from "../context/auth-context";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
 import { authUser } from "../utils/requests";
 
@@ -32,10 +32,13 @@ export default class LoginPage extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const { email, password } = e.target;
-        authUser(email, password).then((user) => {
-            setUser(user);
+        authUser(email.value, password.value).then((jwt) => {
+            setJWT(jwt);
             this.setState({ loggedIn: true })
         }).catch(error => {
+            if (error.code === 403){
+                window.history.pushState("/activate-account")
+            }
             this.setState({error: error.message})
         })
     }
