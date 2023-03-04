@@ -11,6 +11,9 @@ It also helps IZSoftwares to identify the Key strengh of it employees.
 
 ## To deploy on Production
 > First commit your changes then push on the main branch
+> git add . 
+> git commit -m "#your comment"
+> git push -u origin main
 > Lastly:
 > npm run deploy
 
