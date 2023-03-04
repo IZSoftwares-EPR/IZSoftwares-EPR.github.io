@@ -7,7 +7,7 @@ It also helps IZSoftwares to identify the Key strengh of it employees.
 ## After cloning the project
 > npm install
 ## To run the solution Locally
-> npm run start
+> npm start
 
 ## To deploy on Production
 > First commit your changes then push on the main branch
