@@ -1,18 +1,18 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Alert from "../components/Alert";
 import VerificationModal from "../components/VerificationModal";
-import { setUserVerified } from "../context/auth-context";
+import { setJWT } from "../context/auth-context";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
 import { updatePasswordDefault, verificationCode } from "../utils/requests";
-export default class ActivateAccount extends React.Component {
-    state = { modalError: null, error: null, success: false }
+class ActivateAccount extends React.Component {
+    state = { modalError: null, error: null, success: false, email: this.props.params.email }
     componentDidMount() {
         window.$('#verificationModal').modal({ backdrop: 'static', keyboard: false })
         window.$('#verificationModal').modal('show')
     }
     verifyCode(code) {
-        verificationCode(code)
+        verificationCode(this.state.email, code)
             .then((isValid) => isValid ? window.$('#verificationModal').modal("hide") : this.setState({ modalError: "Wrong code!" }))
     }
     handleSubmit(e) {
@@ -21,8 +21,8 @@ export default class ActivateAccount extends React.Component {
         if (form.password.value !== form.password1.value) {
             return this.setState({ error: "Passwords donot match" })
         }
-        updatePasswordDefault(form.password0.vale, form.password.value).then(() => {
-            setUserVerified(true)
+        updatePasswordDefault(this.state.email, form.password0.value, form.password.value).then((data) => {
+            setJWT(data)
             this.setState({success: true})
         }).catch((e) => this.setState({ error: e.message }))
     }
@@ -56,4 +56,8 @@ export default class ActivateAccount extends React.Component {
             </React.Fragment>
         )
     }
+}
+export default function Component() {
+    let params = useParams()
+    return (<ActivateAccount params={params}></ActivateAccount>)
 }

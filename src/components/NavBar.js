@@ -12,7 +12,7 @@ export default function NavBar(){
             <li className="nav-item">
                 <Link className="nav-link" to="/change-password">Change Password</Link>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
                 <Link className="nav-link" to="/logout">Logout</Link>
             </li>
             </ul>

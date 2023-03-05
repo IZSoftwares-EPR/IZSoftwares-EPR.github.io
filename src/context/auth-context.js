@@ -2,10 +2,8 @@ import React from 'react';
 import jwt_decode from "jwt-decode"
 export const AuthContext = React.createContext("auth")
 function setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  let expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires;
+  const d = new Date(exdays * 1000 - (5 * 3600));
+  document.cookie = cname + "=" + cvalue + ";expires=" + d.toUTCString() + ";path=/;";
 }
 function getCookie(cname) {
   let name = cname + "=";
@@ -24,17 +22,13 @@ function getCookie(cname) {
 }
 export const authState = {
   userJWT: getCookie("erp-jwt"),
-  isVerified: null
 }
 
 export function setJWT(jwt){
   authState.userJWT = jwt
   setCookie("erp-jwt", jwt, jwt_decode(jwt).exp)
 }
-export function setUserVerified(state){
-  authState.isVerified = state;
-}
 export function logoutUser(){
   authState.userJWT = null
-  document.cookie = ""
+  setCookie("erp-jwt", "", Date.now()/1000)
 }

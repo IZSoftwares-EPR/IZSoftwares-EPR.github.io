@@ -2,16 +2,19 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
 import { getUsers, getPerformanceQuestions, createReview } from "../utils/requests";
+let has_fetched_data = false;
 export default class QuestionsPage extends React.Component {
-    state = { questions: [], employees: [], currentReviewedEmp: null }
+    constructor(props){
+        super(props)
+        this.state = { questions: [], employees: [], currentReviewedEmp: null }
+    }
     componentDidMount() {
-        if (new Date().getDay() === 6) { // Reviews only available on Saturdays
+        if ([6, 0].includes(new Date().getDay()) && !has_fetched_data) { // Reviews only available on Saturdays
+            has_fetched_data = true
             getUsers().then(employees => {
-                this.setState({ employees });
-                this.setState({ currentReviewedEmp: employees[0] });
-            })
-            getPerformanceQuestions().then(questions => {
-                this.setState({ questions: questions.map(question => ({ ...question, value: "" })) });
+                getPerformanceQuestions().then(questions => {
+                    this.setState({ currentReviewedEmp: employees[0], employees, questions: questions.map(question => ({ ...question, value: "" }))  });
+                })
             })
         }
     }
@@ -23,12 +26,12 @@ export default class QuestionsPage extends React.Component {
                     <div className="px-lg-5">
                         {this.state.currentReviewedEmp
                             ? (<React.Fragment>
-                                <h1 className="text-center mb-4">Review for {this.state.currentReviewedEmp.name} ({this.state.employees.length} left)</h1>
+                                <h1 className="text-center mb-4">Review for {this.state.currentReviewedEmp.username} ({this.state.employees.length} left)</h1>
                                 <form onSubmit={this.handleSubmit.bind(this)}>
-                                    {this.state.questions.map(({ id, text, value }, i) => (
+                                    {this.state.questions.map(({ id, name, value }, i) => (
                                         <div key={id} className="form-check mb-5">
                                             <label className="form-check-label mb-1" htmlFor={`question-item-select-${id}`}>
-                                                {text}<span className="text-danger"> *</span>
+                                                {name?.replace("@IZName", this.state.currentReviewedEmp.username)}<span className="text-danger"> *</span>
                                             </label>
                                             <select className="form-select mt-2" id={`question-item-select-${id}`} required value={value} onChange={this.handleChange.bind(this, i)}>
                                                 <option disabled value="">Select Score</option>
@@ -65,7 +68,7 @@ export default class QuestionsPage extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        createReview(this.state.currentReviewedEmp.id, this.getReviewData()).then(() => {
+        createReview(this.state.currentReviewedEmp.email, this.getReviewData()).then(() => {
             const employees = this.state.employees;
             employees.shift();
             this.setState({ employees: [...employees] });
@@ -74,7 +77,7 @@ export default class QuestionsPage extends React.Component {
     }
     handleSkip() {
         const reviewData = this.getReviewData().map(piece => ({ ...piece, points: 0 }));
-        createReview(this.state.currentReviewedEmp.id, reviewData).then(() => {
+        createReview(this.state.currentReviewedEmp.email, reviewData).then(() => {
             const employees = this.state.employees;
             employees.shift();
             this.setState({ employees: [...employees] });

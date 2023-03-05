@@ -1,20 +1,10 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert";
-import VerificationModal from "../components/VerificationModal";
-import { setUserVerified } from "../context/auth-context";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
-import { updatePassword, verificationCode } from "../utils/requests";
+import { updatePassword } from "../utils/requests";
 export default class ChangePasswordPage extends React.Component {
-    state = { modalError: null, error: null, success: false }
-    componentDidMount() {
-        window.$('#verificationModal').modal({ backdrop: 'static', keyboard: false })
-        window.$('#verificationModal').modal('show')
-    }
-    verifyCode(code) {
-        verificationCode(code)
-            .then((isValid) => isValid ? window.$('#verificationModal').modal("hide") : this.setState({ modalError: "Wrong code!" }))
-    }
+    state = { error: null, success: false }
     handleSubmit(e) {
         e.preventDefault();
         let form = e.target;
@@ -22,14 +12,12 @@ export default class ChangePasswordPage extends React.Component {
             return this.setState({ error: "Passwords donot match" })
         }
         updatePassword(form.password.value).then(() => {
-            setUserVerified(true)
             this.setState({success: true})
         }).catch((e) => this.setState({ error: e.message }))
     }
     render() {
         return (
             <React.Fragment>
-                <VerificationModal onSubmit={this.verifyCode.bind(this)} error={this.state.modalError} />
                 {
                     this.state.success && (
                         <Navigate to="/" replace={true}/>

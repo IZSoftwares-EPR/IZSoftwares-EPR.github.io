@@ -1,7 +1,7 @@
 
 import { createBrowserRouter } from "react-router-dom"
+import OnlyDisconnectedRoute from "./hoc/OnlyDisconnectedRoute";
 import ProtectedRoute from "./hoc/ProtectedRoute";
-import VerifiedUserRoute from "./hoc/VerifiedUserRoute";
 import ActivateAccount from "./pages/activate-account";
 import ChangePasswordPage from "./pages/change-password-page";
 import ErrorPage from "./pages/error-page";
@@ -13,20 +13,21 @@ const router = createBrowserRouter(
     [
         {
             path: "/",
-            element: <ProtectedRoute><VerifiedUserRoute><QuestionsPage /></VerifiedUserRoute></ProtectedRoute>,
+            element: <ProtectedRoute><QuestionsPage /></ProtectedRoute>,
             errorElement: <ErrorPage />,
         },
         {
             path: "/auth/login",
-            element: <LoginPage />
+            element: <OnlyDisconnectedRoute><LoginPage /></OnlyDisconnectedRoute>
+        },
+        {
+            path: "/auth/login/activate-account/:email",
+
+            element: <OnlyDisconnectedRoute><ActivateAccount/></OnlyDisconnectedRoute>
         },
         {
             path: "/change-password",
             element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
-        },
-        {
-            path: "/activate-account",
-            element: <ActivateAccount/>
         },
         {
             path: "/logout",
