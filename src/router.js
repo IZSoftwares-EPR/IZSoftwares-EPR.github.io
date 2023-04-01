@@ -10,6 +10,7 @@ import ErrorPage from "./pages/error-page";
 import LoginPage from "./pages/login-page"
 import LogoutPage from "./pages/logout-page";
 import QuestionsPage from "./pages/questions-page";
+import LoginPage2 from "./pages/login-page2";
 
 const router = createBrowserRouter(
     [
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
         },
         {
             path: "/auth/login",
-            element: <OnlyDisconnectedRoute><LoginPage /></OnlyDisconnectedRoute>
+            element: <OnlyDisconnectedRoute><LoginPage2 /></OnlyDisconnectedRoute>
         },
         {
             path: "/auth/login/activate-account/:email",
