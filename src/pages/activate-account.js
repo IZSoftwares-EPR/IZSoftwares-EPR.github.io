@@ -19,7 +19,7 @@ class ActivateAccount extends React.Component {
         e.preventDefault();
         let form = e.target;
         if (form.password.value !== form.password1.value) {
-            return this.setState({ error: "Passwords donot match" })
+            return this.setState({ error: "Confirm password doesn't match New password" })
         }
         updatePasswordDefault(this.state.email, form.password0.value, form.password.value).then((data) => {
             setJWT(data)
@@ -39,15 +39,15 @@ class ActivateAccount extends React.Component {
                     <form className="align-self-center flex-form" onSubmit={this.handleSubmit.bind(this)}>
                         <Alert message={this.state.error} />
                         <div className="mb-3">
-                            <label htmlFor="password-field">Current Password</label>
+                            <label htmlFor="password-field">Default Password (Email)</label>
                             <input name="password0" type="password" className="form-control" id="password-field" />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="password-field">Type new Password</label>
+                            <label htmlFor="password-field">New Password</label>
                             <input name="password" type="password" className="form-control" id="password-field" />
                         </div>
                         <div>
-                            <label htmlFor="password-confirm-field">Confirm new Password</label>
+                            <label htmlFor="password-confirm-field">Confirm Password</label>
                             <input name="password1" type="password" className="form-control" id="password-confirm-field" />
                         </div>
                         <button type="submit" className="btn w-100 btn-primary mt-3">Change Password</button>
