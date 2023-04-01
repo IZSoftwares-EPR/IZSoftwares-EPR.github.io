@@ -9,7 +9,7 @@ export default class QuestionsPage extends React.Component {
         this.state = { questions: [], employees: [], comment: "", currentReviewedEmp: null }
     }
     componentDidMount() {
-        if ([6, 0].includes(new Date().getDay()) && !has_fetched_data) { // Reviews only available on Saturdays
+        if (new Date().getDay() === 6 && !has_fetched_data) { // Reviews only available on Saturdays
             has_fetched_data = true
             getUsers().then(employees => {
                 getPerformanceQuestions().then(questions => {
