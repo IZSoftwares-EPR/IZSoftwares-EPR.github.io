@@ -6,7 +6,7 @@ let has_fetched_data = false;
 export default class QuestionsPage extends React.Component {
     constructor(props){
         super(props)
-        this.state = { questions: [], employees: [], currentReviewedEmp: null }
+        this.state = { questions: [], employees: [], comment: "", currentReviewedEmp: null }
     }
     componentDidMount() {
         if ([6, 0].includes(new Date().getDay()) && !has_fetched_data) { // Reviews only available on Saturdays
@@ -29,8 +29,8 @@ export default class QuestionsPage extends React.Component {
                                 <h1 className="text-center mb-4">Review for {this.state.currentReviewedEmp.username} ({this.state.employees.length} left)</h1>
                                 <form onSubmit={this.handleSubmit.bind(this)}>
                                     {this.state.questions.map(({ id, name, value }, i) => (
-                                        <div key={id} className="form-check mb-5">
-                                            <label className="form-check-label mb-1" htmlFor={`question-item-select-${id}`}>
+                                        <div key={id} className="mb-5">
+                                            <label className="form-check-label" htmlFor={`question-item-select-${id}`}>
                                                 {name?.replace("@IZName", this.state.currentReviewedEmp.username)}<span className="text-danger"> *</span>
                                             </label>
                                             <select className="form-select mt-2" id={`question-item-select-${id}`} required value={value} onChange={this.handleChange.bind(this, i)}>
@@ -48,9 +48,13 @@ export default class QuestionsPage extends React.Component {
                                             </select>
                                         </div>
                                     ))}
+                                    <label className="form-check-label mb-1" htmlFor="comment">
+                                        Any Additional comment?
+                                    </label>
+                                    <textarea className="form-control" value={this.state.comment} name="comment" onChange={this.handleInput.bind(this)}></textarea>
                                     <div className="d-grid gap-2 mt-5 col-sm-12 col-md-8 col-xl-4 mx-auto">
                                         <button className="btn btn-primary" type="submit">Submit</button>
-                                        <button onClick={this.handleSkip.bind(this)} className="btn btn-secondary" type="button">Skip</button>
+                                        {/* <button onClick={this.handleSkip.bind(this)} className="btn btn-secondary" type="button">Skip</button> */}
                                     </div>
                                 </form>
                             </React.Fragment>)
@@ -66,9 +70,12 @@ export default class QuestionsPage extends React.Component {
         questions[i].value = e.target.value;
         this.setState({ questions: [...questions] });
     }
+    handleInput(e) {
+        this.setState({comment: e.target.value});
+    }
     handleSubmit(e) {
         e.preventDefault();
-        createReview(this.state.currentReviewedEmp.email, this.getReviewData()).then(() => {
+        createReview(this.state.currentReviewedEmp.email, this.getReviewData(), this.state.comment).then(() => {
             const employees = this.state.employees;
             employees.shift();
             this.setState({ employees: [...employees] });
@@ -86,10 +93,13 @@ export default class QuestionsPage extends React.Component {
     }
     resetForm() {
         window.scrollTo({ top: 0 });
-        this.setState({ currentReviewedEmp: this.state.employees[0] });
-        this.setState({ questions: this.state.questions.map(question => ({ ...question, value: "" })) })
+        this.setState({ 
+            currentReviewedEmp: this.state.employees[0],
+            comment: "",
+            questions: this.state.questions.map(question => ({ ...question, value: "" }))  
+        });
     }
     getReviewData() {
-        return this.state.questions.map(question => ({ pqId: question.id, points: question.value }))
+        return this.state.questions.map(question => ({ id: question.id, points: Number(question.value) }))
     }
 }

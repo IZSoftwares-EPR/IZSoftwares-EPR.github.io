@@ -2,8 +2,10 @@
 import { createBrowserRouter } from "react-router-dom"
 import OnlyDisconnectedRoute from "./hoc/OnlyDisconnectedRoute";
 import ProtectedRoute from "./hoc/ProtectedRoute";
+import OnlyAdminRoute from "./hoc/OnlyAdminRoute";
 import ActivateAccount from "./pages/activate-account";
 import ChangePasswordPage from "./pages/change-password-page";
+import EditQuestionsPage from "./pages/edit-questions-page";
 import ErrorPage from "./pages/error-page";
 import LoginPage from "./pages/login-page"
 import LogoutPage from "./pages/logout-page";
@@ -28,6 +30,10 @@ const router = createBrowserRouter(
         {
             path: "/change-password",
             element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
+        },
+        {
+            path: "/questions-admin",
+            element: <OnlyAdminRoute><EditQuestionsPage /></OnlyAdminRoute>
         },
         {
             path: "/logout",

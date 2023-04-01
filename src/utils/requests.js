@@ -19,20 +19,7 @@ async function APIFetch(url, params = {}){
     return data;
 }
 export async function getUsers() {
-    return APIFetch("/epr/user-service/api/v1/users")
-}
-export async function getPerformanceQuestions() {
-    return APIFetch("/epr/pq-service/api/v1/performances")
-}
-export async function createReview(email, reviews){
-    const body = JSON.stringify({
-        user: email,
-        reviews
-    });
-    return APIFetch("/epr/user-service/api/v1/users/review", {
-        method: "POST",
-        body
-    })
+    return APIFetch("/epr/user-service/api/v1/users/reviews")
 }
 export async function authUser(email, password){
     const body = JSON.stringify({
@@ -44,9 +31,22 @@ export async function authUser(email, password){
         body
     })
 }
+
 export async function verificationCode(email, code){
     return APIFetch(`/epr/user-service/api/v1/auth/verification/${email}/${code}`);
 }
+export async function createReview(email, pqs, comment){
+    const body = JSON.stringify({
+        user: email,
+        pqs,
+        comment
+    });
+    return APIFetch("/epr/user-service/api/v1/users/reviews", {
+        method: "POST",
+        body
+    })
+}
+
 export async function updatePassword(password){
     const body = JSON.stringify({
         "pwd": btoa(password)
@@ -67,10 +67,26 @@ export async function updatePasswordDefault(email, defaultPassword, password){
         body
     });
 }
+
+export async function getPerformanceQuestions() {
+    return APIFetch("/epr/pq-service/api/v1/performances")
+}
 export async function createPerformaceQuestion(name, point){
     const body = JSON.stringify({name, point});
     return APIFetch("/epr/pq-service/api/v1/performances", {
         method: "POST",
         body
+    });
+}
+export async function updatePerformaceQuestion(id, name, point){
+    const body = JSON.stringify({name, point});
+    return APIFetch("/epr/pq-service/api/v1/performances/"+id, {
+        method: "PUT",
+        body
+    });
+}
+export async function deletePerformaceQuestion(id){
+    return APIFetch("/epr/pq-service/api/v1/performances/"+id, {
+        method: "DELETE"
     });
 }

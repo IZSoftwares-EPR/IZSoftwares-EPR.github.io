@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert";
-import { setJWT } from "../context/auth-context";
+import { AuthContext, setJWT } from "../context/auth-context";
 import AlignedCenterLayout from "../layout/AlignedCenterLayout";
 import { authUser } from "../utils/requests";
+
+function UserConnectedRedirect(){
+    let authCtx = useContext(AuthContext);
+    if (authCtx.isAdmin){
+        return (<Navigate to="/questions-admin" replace={true} />)
+    }
+    return (<Navigate to="/" replace={true} />)
+}
 
 export default class LoginPage extends React.Component {
     state = { loggedIn: false, error: null, needsActivation: null }
@@ -11,7 +19,7 @@ export default class LoginPage extends React.Component {
         return (
             <React.Fragment>
                 {this.state.loggedIn && (
-                    <Navigate to="/" replace={true} />
+                    <UserConnectedRedirect/>
                 )}
                 {this.state.needsActivation && (
                     <Navigate to={"/auth/login/activate-account/" + this.state.needsActivation} replace={true} />

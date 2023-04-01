@@ -20,15 +20,19 @@ function getCookie(cname) {
   }
   return null;
 }
+let jwt = getCookie("erp-jwt")
 export const authState = {
-  userJWT: getCookie("erp-jwt"),
+  userJWT: jwt,
+  isAdmin: jwt ? jwt_decode(jwt).profile === "ADMIN" : false
 }
 
 export function setJWT(jwt){
-  authState.userJWT = jwt
-  setCookie("erp-jwt", jwt, jwt_decode(jwt).exp)
+  authState.userJWT = jwt;
+  authState.isAdmin = jwt_decode(jwt).profile === "ADMIN";
+  setCookie("erp-jwt", jwt, jwt_decode(jwt).exp);
 }
 export function logoutUser(){
   authState.userJWT = null
+  authState.isAdmin = false
   setCookie("erp-jwt", "", Date.now()/1000)
 }
