@@ -8,7 +8,7 @@ async function APIFetch(url, params = {}){
     if (authState.userJWT != null) {
         params.headers.Authorization = `Bearer ${authState.userJWT}`
     }
-    let response = await fetch("http://129.151.188.233:9980"+url, params);
+    let response = await fetch("http://api.izsoftwares.com:9980/"+url, params);
     let json = await response.json();
     let {apiError, data} = json;
     if (apiError || !response.ok){
