@@ -24,42 +24,42 @@ export default class LoginPage2 extends React.Component {
                 {this.state.needsActivation && (
                     <Navigate to={"/auth/login/activate-account/" + this.state.needsActivation} replace={true} />
                 )}
-                <section class="vh-100">
-                    <div class="container-fluid h-custom">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col-md-9 col-lg-6 col-xl-5">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid"  />
+                <section className="vh-100">
+                    <div className="container-fluid h-custom">
+                        <div className="row d-flex justify-content-center align-items-center h-100">
+                            <div className="col-md-9 col-lg-6 col-xl-5">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid"  />
                             </div>
-                            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                            <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                             <form onSubmit={this.handleSubmit.bind(this)}>
                                 <Alert message={this.state.error}/>
-                                <div class="divider d-flex align-items-center my-4">
-                                    <p class="text-center fw-bold mx-3 mb-0">IZ EPR Login</p>
+                                <div className="divider d-flex align-items-center my-4">
+                                    <p className="text-center fw-bold mx-3 mb-0">IZ EPR Login</p>
                                 </div>
           
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="input-email-address">Email Address: </label>
-                                    <input name="email" type="email" id="input-email-address" required class="form-control form-control-lg" placeholder="Email Address received from the system" />
+                                <div className="form-outline mb-4">
+                                    <label className="form-label" htmlFor="input-email-address">Email Address: </label>
+                                    <input name="email" type="email" id="input-email-address" required className="form-control form-control-lg" placeholder="Email Address received from the system" />
                                    
                                 </div>
           
-                                <div class="form-outline mb-3">
-                                    <label class="form-label" for="input-password">Password</label>
-                                    <input name="password" type="password" id="input-password" required class="form-control form-control-lg" placeholder="Password received from the system" />
+                                <div className="form-outline mb-3">
+                                    <label className="form-label" htmlFor="input-password">Password</label>
+                                    <input name="password" type="password" id="input-password" required className="form-control form-control-lg" placeholder="Password received from the system" />
                                 </div>
           
-                                {/*<div class="d-flex justify-content-between align-items-center">
-                                    <div class="form-check mb-0">
-                                        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                                        <label class="form-check-label" for="form2Example3">
+                                {/*<div className="d-flex justify-content-between align-items-center">
+                                    <div className="form-check mb-0">
+                                        <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                                        <label className="form-check-label" htmlFor="form2Example3">
                                         Remember me
                                         </label>
                                     </div>
-                                    <a href="#!" class="text-body">Forgot password?</a>
+                                    <a href="#!" className="text-body">Forgot password?</a>
                                 </div>*/}
           
-                            <div class="d-grid gap-2 col-12 mx-auto text-center text-lg-start">
-                                <button type="submit" class="btn btn-primary ">Login</button>
+                            <div className="d-grid gap-2 col-12 mx-auto text-center text-lg-start">
+                                <button type="submit" className="btn btn-primary ">Login</button>
                             </div>
           
                   </form>
@@ -67,9 +67,9 @@ export default class LoginPage2 extends React.Component {
               </div>
             </div>
             <div
-              class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+              className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
           
-              <div class="text-white mb-3 mb-md-0">
+              <div className="text-white mb-3 mb-md-0">
                 Copyright © 2023. IZSoftwares EPR Service. All Rights Reserved.
               </div>
             </div>
