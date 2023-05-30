@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import Alert from "../components/Alert";
 import { AuthContext, setJWT } from "../context/auth-context";
-import AlignedCenterLayout from "../layout/AlignedCenterLayout";
+// import AlignedCenterLayout from "../layout/AlignedCenterLayout";
 import { authUser } from "../utils/requests";
 
 function UserConnectedRedirect(){
@@ -28,7 +28,7 @@ export default class LoginPage2 extends React.Component {
                     <div className="container-fluid h-custom">
                         <div className="row d-flex justify-content-center align-items-center h-100">
                             <div className="col-md-9 col-lg-6 col-xl-5">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid"  />
+                                <img alt="banner" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid"  />
                             </div>
                             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                             <form onSubmit={this.handleSubmit.bind(this)}>

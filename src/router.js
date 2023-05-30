@@ -7,7 +7,7 @@ import ActivateAccount from "./pages/activate-account";
 import ChangePasswordPage from "./pages/change-password-page";
 import EditQuestionsPage from "./pages/edit-questions-page";
 import ErrorPage from "./pages/error-page";
-import LoginPage from "./pages/login-page"
+// import LoginPage from "./pages/login-page"
 import LogoutPage from "./pages/logout-page";
 import QuestionsPage from "./pages/questions-page";
 import LoginPage2 from "./pages/login-page2";
