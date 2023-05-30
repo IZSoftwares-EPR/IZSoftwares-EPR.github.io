@@ -1,39 +1,33 @@
 import { authState } from "../context/auth-context";
-import axios from 'axios';
 async function APIFetch(url, params = {}){
-    let headers = {
-        accept: 'application/json',
+    if (params.headers == null){
+        params.headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "mode": "no-cors"
+        }
     }
     if (authState.userJWT != null) {
-       headers.Authorization = `Bearer ${authState.userJWT}`
+        params.headers.Authorization = `Bearer ${authState.userJWT}`
     }
-    try {
-        let response = await axios.request({
-            url,
-            headers,
-            method: params.method,
-            baseUrl: "https://api.izsoftwares.com",
-            data: params.body
-        });
-        return response.data;
-    } catch(e){
-        if (e.response.data){
-            let { apiError } = e.response.data
-            let error = new Error(apiError.errorMessage);
-            error.code = apiError.errorCode;
-            throw error;
-        }
-        throw e;
+    let response = await fetch("https://api.izsoftwares.com"+url, params);
+    let json = await response.json();
+    let {apiError, data} = json;
+    if (apiError || !response.ok){
+        let error = new Error(apiError.errorMessage);
+        error.code = apiError.errorCode;
+        throw error;
     }
+    return data;
 }
 export async function getUsers() {
     return APIFetch("/epr/user-service/api/v1/users/reviews")
 }
 export async function authUser(email, password){
-    const body = {
+    const body = JSON.stringify({
         "email": email,
         "pwd": btoa(password)
-    };
+    });
     return APIFetch("/epr/user-service/api/v1/auth", {
         method: "POST",
         body
@@ -44,11 +38,11 @@ export async function verificationCode(email, code){
     return APIFetch(`/epr/user-service/api/v1/auth/verification/${email}/${code}`);
 }
 export async function createReview(email, pqs, comment){
-    const body = {
+    const body = JSON.stringify({
         user: email,
         pqs,
         comment
-    };
+    });
     return APIFetch("/epr/user-service/api/v1/users/reviews", {
         method: "POST",
         body
@@ -56,20 +50,20 @@ export async function createReview(email, pqs, comment){
 }
 
 export async function updatePassword(password){
-    const body = {
+    const body = JSON.stringify({
         "pwd": btoa(password)
-    };
+    });
     return APIFetch("/epr/user-service/api/v1/auth/update-password", {
         method: "POST",
         body
     });
 }
 export async function updatePasswordDefault(email, defaultPassword, password){
-    const body = {
+    const body = JSON.stringify({
         "email": email,
         "defaultPwd":  btoa(defaultPassword),
         "pwd": btoa(password)
-    };
+    });
     return APIFetch("/epr/user-service/api/v1/auth/update-password", {
         method: "POST",
         body
@@ -80,14 +74,14 @@ export async function getPerformanceQuestions() {
     return APIFetch("/epr/pq-service/api/v1/performances")
 }
 export async function createPerformaceQuestion(name, point){
-    const body = {name, point};
+    const body = JSON.stringify({name, point});
     return APIFetch("/epr/pq-service/api/v1/performances", {
         method: "POST",
         body
     });
 }
 export async function updatePerformaceQuestion(id, name, point){
-    const body = {name, point};
+    const body = JSON.stringify({name, point});
     return APIFetch("/epr/pq-service/api/v1/performances/"+id, {
         method: "PUT",
         body
