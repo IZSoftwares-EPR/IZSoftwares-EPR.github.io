@@ -3,8 +3,7 @@ async function APIFetch(url, params = {}){
     if (params.headers == null){
         params.headers = {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "mode": "no-cors"
+            "Access-Control-Allow-Origin": "*"
         }
     }
     if (authState.userJWT != null) {
