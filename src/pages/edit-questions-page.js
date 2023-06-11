@@ -47,6 +47,8 @@ export default class EditQuestionsPage extends React.Component {
                 this.setState({
                     questions
                 })
+            }).catch((e) => {
+                console.error(e);
             })
         }
     }
